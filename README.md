@@ -8,20 +8,21 @@ no tracking.** All calculations run in the browser; preferences stay in
 ## Run locally
 
 ```bash
-# any static server, e.g:
-python3 -m http.server 8080
-# open http://127.0.0.1:8080/index.html
+npm install
+npm run dev      # Vite dev server (serves public/ at root, same URLs as production)
+# or preview the production build:
+npm run build && npm run preview
 ```
 
 ## Deploy (Vercel only)
 
 ```
-GitHub → Vercel → Build (none — static) → CDN → public website
+GitHub → Vercel → npm install → npm run build → dist/ → CDN → public website
 ```
 
 1. Push this folder to a GitHub repo.
 2. Vercel → Add New Project → import the repo.
-3. Framework Preset: **Other**. Build Command: *(empty)*. Output Directory: *(repo root)*.
+3. Framework Preset: **Vite**. Install Command: `npm install`. Build Command: `npm run build`. Output Directory: `dist`.
 4. Deploy. `vercel.json` handles clean URLs + route rewrites; no server required.
 
 Before going live, replace `https://telangana-rider-network.pages.dev/` in

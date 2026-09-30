@@ -1,0 +1,15 @@
+{
+  "name": "telangana-rider-network",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Telangana Rider Network — weekend motorcycle routes, frontend-only static Vite app for Vercel.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^6.3.5"
+  }
+}
