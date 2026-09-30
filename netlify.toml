@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "/trips/:slug"
+  to = "/trip.html?slug=:slug"
+  status = 200

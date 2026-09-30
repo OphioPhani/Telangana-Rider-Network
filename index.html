@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telangana Rider Network — 150 Weekend Motorcycle Routes from Hyderabad</title>
+<meta name="description" content="150 weekend motorcycle routes from Hyderabad across Telangana: scenic roads, waterfalls, forts, temples, lakes, fuel plans, food stops and maps.">
+<link rel="canonical" href="https://telangana-rider-network.pages.dev/">
+<meta name="theme-color" content="#070A14">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Telangana Rider Network">
+<meta property="og:title" content="Explore Telangana, One Ride at a Time — 150 Weekend Motorcycle Routes">
+<meta property="og:description" content="Waterfalls, hill roads, forts, temples, lakes and food rides starting from Hyderabad. Maps, fuel planner, food & support info.">
+<meta property="og:url" content="https://telangana-rider-network.pages.dev/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="styles.css">
+<script type="application/ld+json" id="ldjson"></script>
+</head>
+<body>
+<div id="appError" hidden><strong>TELANGANA RIDER NETWORK — APPLICATION ERROR.</strong><span id="appErrorMsg"></span><button type="button" onclick="location.reload()">RELOAD</button></div>
+<script>
+window.addEventListener("error",function(e){try{if(e.target!==window&&!e.error)return;console.error("[TRN]",e.error||e.message);var m=document.getElementById("appErrorMsg");if(m)m.textContent=String((e.error&&e.error.message)||e.message||"script error").slice(0,180);var b=document.getElementById("appError");if(b)b.hidden=false;document.querySelectorAll(".reveal").forEach(function(x){x.classList.add("in");});}catch(_){}},true);
+</script>
+<a class="skip" href="#routes">Skip to routes</a>
+
+<!-- ============ GEOMETRIC NAV ============ -->
+<header class="nav" id="topnav">
+  <div class="nav-top-strip" aria-hidden="true">
+    <span class="hud"></span><span>TRN // ROUTE OS v2.0</span>
+    <span class="grow"></span>
+    <span>HYD SECTOR <span class="sig">● LIVE</span></span>
+    <span class="sig">17.35°N 78.52°E</span>
+  </div>
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="Telangana Rider Network home">
+      <span class="logo-badge" aria-hidden="true">TRN</span>
+      <span class="logo-text">TELANGANA<br>RIDER <em>NETWORK</em></span>
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="#mybike" data-nav="mybike">MY BIKE</a>
+      <a href="#routes" data-nav="routes">ROUTES</a>
+      <a href="#map-section" data-nav="map">MAP</a>
+      <a href="#planner" data-nav="planner">TRIP PLANNER</a>
+      <a href="bikes.html" data-nav="bikes">BIKE DATABASE</a>
+    </nav>
+    <div class="nav-actions">
+      <button id="searchToggle" class="icon-btn" aria-label="Search routes" title="Search">⌕</button>
+      <button id="themeToggle" class="icon-btn theme-btn" aria-label="Switch dark / light mode" title="Dark / light mode">◐</button>
+      <a href="#routes" class="btn btn-primary nav-cta">FIND A RIDE</a>
+      <button id="menuBtn" class="icon-btn menu-btn" aria-label="Open menu" aria-expanded="false">☰</button>
+    </div>
+  </div>
+  <div class="nav-search" id="navSearch" hidden>
+    <div class="nav-search-inner">
+      <span aria-hidden="true" style="color:var(--cyan)">◇</span>
+      <input id="q" type="search" placeholder="Where do you want to ride? Try waterfall, fort, lake…" autocomplete="off">
+      <button id="searchClose" class="icon-btn" aria-label="Close search">✕</button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <a href="#mybike">MY BIKE</a>
+    <a href="#routes">ROUTES</a>
+    <a href="#map-section">MAP</a>
+    <a href="#planner">TRIP PLANNER</a>
+    <a href="bikes.html">BIKE DATABASE</a>
+    <a href="#about">ABOUT</a>
+  </div>
+</header>
+
+<!-- ============ GRAPHICAL HERO ============ -->
+<section class="hero" id="top">
+  <div class="hero-grid-bg" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <div>
+      <p class="hero-coords">17.3850°N — 78.4867°E // SAROORNAGAR BASE // TELANGANA SECTOR</p>
+      <h1 class="reveal" data-grid-avoid>EXPLORE<br>TELANGANA<br><span class="l2">ONE RIDE AT A TIME.</span></h1>
+      <p class="hero-sub reveal" data-grid-avoid>150 waypoint-verified weekend routes from Hyderabad — hills, waterfalls, forts, temples, lakes and food trails. Pick a bike, pick a route, read the telemetry, ride.</p>
+      <div class="hero-cta reveal">
+        <a href="#routes" class="btn btn-primary btn-lg">EXPLORE ROUTES →</a>
+        <a href="#map-section" class="btn btn-glass btn-lg">VIEW MAP</a>
+      </div>
+      <form class="hero-search reveal" id="heroSearchForm" role="search">
+        <span class="s-ico" aria-hidden="true">◇</span>
+        <input id="qHero" type="search" placeholder="WHERE DO YOU WANT TO RIDE?" aria-label="Search destinations">
+        <button type="submit" class="btn btn-primary">⌕</button>
+      </form>
+    </div>
+    <div class="hero-route-art reveal" id="map-section" aria-label="Live route map">
+      <div id="mainMap" role="application" aria-label="Interactive map of Telangana motorcycle routes"></div>
+      <aside class="map-preview" id="mapPreview" aria-live="polite">
+        <div class="map-preview-empty">
+          <span class="hex">◇</span>
+          <h3>AWAITING SELECTION</h3>
+          <p>Choose any marker on the map to load the route preview.</p>
+        </div>
+      </aside>
+      <p class="map-note">△ START: SAROORNAGAR 17.35°N 78.52°E // MAPLIBRE + OPENFREEMAP, NO API KEY // DATA © OPENSTREETMAP.</p>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="hero-stats reveal" id="heroStats">
+      <div class="hstat"><strong id="statRoutes">150</strong><span>Unique rides</span></div>
+      <div class="hstat"><strong id="statKm">—</strong><span>Km of riding</span></div>
+      <div class="hstat"><strong id="statDest">—</strong><span>Destinations</span></div>
+      <div class="hstat"><strong>Telangana</strong><span>Coverage</span></div>
+      <div class="hstat"><strong>Weekend</strong><span>Ready</span></div>
+    </div>
+  </div>
+  <div style="height:34px"></div>
+</section>
+
+<main>
+<!-- ============ MY BIKE ============ -->
+<section class="section" id="mybike">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Personalized cost engine</p>
+      <h2>MY BIKE</h2>
+      <p class="sec-sub">No bike is pre-selected. Choose your motorcycle and every route, fuel estimate and budget updates for it. Stored only in your browser.</p>
+    </div>
+    <div class="bike-layout reveal">
+      <div class="bike-profile card" id="bikeProfile" aria-live="polite"></div>
+      <div class="bike-finder card">
+        <h3>SELECT YOUR MOTORCYCLE</h3>
+        <div class="bike-search-row">
+          <span aria-hidden="true" style="color:var(--cyan)">◇</span>
+          <input id="bikeSearch" type="search" placeholder="Search… try 400, Royal Enfield, Scrambler" autocomplete="off" aria-label="Search motorcycles">
+        </div>
+        <div class="chips" id="bikeBands" aria-label="Engine size filter"></div>
+        <div class="bike-pop">
+          <span class="flabel">Popular bikes</span>
+          <div class="chips" id="bikePopular"></div>
+        </div>
+        <div class="bike-results" id="bikeResults"></div>
+        <p class="hint"><a href="bikes.html">Open full bike database →</a> · Specs last verified September 2026. Planning mileage is a conservative estimate, not a manufacturer claim.</p>
+      </div>
+    </div>
+    <div class="bike-panels">
+      <div class="card reveal" id="fuelSettingsCard">
+        <h3>FUEL PRICE // MILEAGE MODE</h3>
+        <div class="form-grid">
+          <label>Petrol price (₹/litre)<input id="petrolPrice" type="number" min="50" max="250" step="0.5" value="110"></label>
+          <label>Mode
+            <select id="mileageMode">
+              <option value="db">Database planning mileage</option>
+              <option value="actual">My actual mileage</option>
+            </select>
+          </label>
+        </div>
+        <div class="form-grid">
+          <label>Your actual mileage (km/l)<input id="actualMileage" type="number" min="10" max="120" step="0.5" placeholder="e.g. 24"></label>
+        </div>
+        <p class="hint">Fuel price used for calculation: <strong id="fuelPriceEcho">₹110/L</strong>.</p>
+        <p class="hint">⚠️ Estimated range ≠ guaranteed range. Speed, traffic, load, terrain, tyre pressure and riding style change real range — refuel before the tank runs low.</p>
+      </div>
+      <div class="card reveal">
+        <h3>COMPARE FUEL COST <span class="muted" style="font-weight:400;font-size:.8rem">[ MAX 4 ]</span></h3>
+        <div class="table-wrap"><table class="data small" id="compareBikesTable">
+          <thead><tr><th>Bike</th><th>Mileage</th><th>Tank</th><th>Range</th><th id="cmpTripHead">180 km fuel</th><th>Cost</th><th></th></tr></thead>
+          <tbody></tbody>
+        </table></div>
+        <p class="hint">Neutral planning estimates — no bike is ranked “best”.</p>
+      </div>
+    </div>
+    <div class="card reveal" id="garageCard" style="margin-top:20px">
+      <h3>GROUP GARAGE <span class="muted" style="font-weight:400;font-size:.8rem">[ NO ACCOUNT ]</span></h3>
+      <p class="sec-sub">Add each rider's motorcycle to split group fuel costs for <span id="garageTripKm">180</span> km.</p>
+      <div class="mini-list" id="garageList"></div>
+      <div class="table-wrap" style="margin-top:12px"><table class="data small" id="garageTable">
+        <thead><tr><th>Rider bike</th><th>Fuel</th><th>Cost</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <p class="hint" id="garageTotal"></p>
+      <div class="about-cta">
+        <button class="btn btn-ghost btn-sm" id="garageAddCurrent" type="button">+ ADD MY BIKE</button>
+        <button class="btn btn-ghost btn-sm" id="garageClear" type="button">CLEAR GROUP</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURED ============ -->
+<section class="section" id="picks">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Handpicked for the weekend</p>
+      <h2>THIS WEEKEND'S PICKS</h2>
+      <p class="sec-sub">Short, scenic and easy to plan — perfect if you just want to get out of the city.</p>
+    </div>
+    <div class="feature-grid" id="featuredRow"></div>
+  </div>
+</section>
+
+<!-- ============ EXPLORER ============ -->
+<section class="section" id="routes">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Route explorer</p>
+      <h2>FIND YOUR NEXT WEEKEND RIDE</h2>
+      <p class="sec-sub"><span id="countLine">150 routes</span> · Distances are round-trip road-route approximations. <button id="btnReset" class="linkbtn" type="button">Reset filters</button></p>
+    </div>
+
+    <div class="filters reveal" aria-label="Route filters">
+      <div class="fgroup">
+        <span class="flabel">Distance</span>
+        <div class="chips" id="chipDist">
+          <button class="chip" data-dist="" aria-pressed="true">ALL</button>
+          <button class="chip" data-dist="u100">UNDER 100 KM</button>
+          <button class="chip" data-dist="100-200">100–200 KM</button>
+          <button class="chip" data-dist="200-300">200–300 KM</button>
+          <button class="chip" data-dist="300p">300+ KM</button>
+        </div>
+      </div>
+      <div class="fgroup">
+        <span class="flabel">Duration</span>
+        <div class="chips" id="chipDur">
+          <button class="chip" data-dur="" aria-pressed="true">ALL</button>
+          <button class="chip" data-dur="half">HALF DAY</button>
+          <button class="chip" data-dur="full">ONE DAY</button>
+          <button class="chip" data-dur="1n">2 DAYS</button>
+          <button class="chip" data-dur="2n">3+ DAYS</button>
+        </div>
+      </div>
+      <div class="fgroup">
+        <span class="flabel">Experience</span>
+        <div class="chips" id="chipExp">
+          <button class="chip" data-exp="" aria-pressed="true">ALL</button>
+          <button class="chip" data-exp="Easy">EASY</button>
+          <button class="chip" data-exp="Moderate">MODERATE</button>
+          <button class="chip" data-exp="adv">ADVENTURE</button>
+          <button class="chip" data-exp="long">LONG RIDE</button>
+        </div>
+      </div>
+      <div class="fgroup">
+        <span class="flabel">Type</span>
+        <div class="chips" id="chipType">
+          <button class="chip" data-type="" aria-pressed="true">ALL</button>
+          <button class="chip" data-type="hills">△ MOUNTAINS</button>
+          <button class="chip" data-type="waterfalls">▽ WATERFALLS</button>
+          <button class="chip" data-type="lakes">⬢ LAKES</button>
+          <button class="chip" data-type="temples">⬣ TEMPLES</button>
+          <button class="chip" data-type="forts">⬔ FORTS</button>
+          <button class="chip" data-type="wildlife">⬒ WILDLIFE</button>
+          <button class="chip" data-type="scenic">◇ SCENIC</button>
+          <button class="chip" data-type="food">⬓ FOOD</button>
+          <button class="chip" data-type="heritage">⬕ HERITAGE</button>
+        </div>
+      </div>
+      <div class="fgroup fgroup-sort">
+        <span class="flabel">District</span>
+        <select id="fDistrict" aria-label="Filter by district">
+          <option value="">ALL DISTRICTS</option>
+        </select>
+      </div>
+      <div class="fgroup fgroup-sort">
+        <span class="flabel">Sort</span>
+        <select id="fSort" aria-label="Sort routes">
+          <option value="n">RECOMMENDED</option>
+          <option value="short">SHORTEST FIRST</option>
+          <option value="long">LONGEST FIRST</option>
+          <option value="easy">EASIEST FIRST</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cards" id="cards"></div>
+  </div>
+</section>
+
+<!-- ============ LONG HAUL ============ -->
+<section class="section section-tint" id="longhaul">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Multi-day escapes</p>
+      <h2>FOR THE LONG HAUL</h2>
+      <p class="sec-sub">Overnighters and 300&nbsp;km+ epics — Srisailam, Bhadrachalam, Basara and the far corners of Telangana.</p>
+    </div>
+    <div class="hscroll" id="longRow"></div>
+  </div>
+</section>
+
+<!-- ============ BEGINNER + ADVENTURE ============ -->
+<section class="section">
+  <div class="wrap split2">
+    <div class="panel reveal" id="beginnerPanel">
+      <p class="kicker">New to riding</p>
+      <h2>FIRST RIDE? START HERE.</h2>
+      <p class="sec-sub">Shorter routes, better roads, easy navigation and frequent fuel stops. Under ~130 km round trip, rated Easy.</p>
+      <div class="mini-list" id="beginnerRow"></div>
+    </div>
+    <div class="panel panel-dark reveal" id="adventurePanel">
+      <p class="kicker">Hills · forests · remote roads</p>
+      <h2>READY FOR SOMETHING BIGGER?</h2>
+      <p class="sec-sub">Adventure-rated routes with ghats, forest stretches and varied surfaces. Read road notes and cautions before you go.</p>
+      <div class="mini-list" id="adventureRow"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRIP COCKPIT ============ -->
+<section class="section section-tint" id="planner">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="kicker">Trip cockpit</p>
+      <h2>FUEL TELEMETRY</h2>
+      <p class="sec-sub">Adjust for your bike — everything updates instantly and stays in your browser.</p>
+    </div>
+    <div class="planner-grid reveal">
+      <div class="card form-card">
+        <h3>INPUT // BIKE + TRIP</h3>
+        <div class="bike-mini" id="plannerBike"></div>
+        <div class="form-grid">
+          <label>Mileage (km/l)<input id="inMileage" type="number" min="10" max="120" step="0.5" value="26"></label>
+          <label>Petrol (₹/l)<input id="inPetrol" type="number" min="50" max="250" step="0.5" value="110"></label>
+          <label>Trip distance — round trip (km)<input id="cDist" type="number" min="10" max="1500" value="180"></label>
+          <label>Tank size (l)<input id="inTank" type="number" min="5" max="30" step="0.5" value="13"></label>
+        </div>
+        <div class="quick-row">
+          <button class="chip" id="btnFill120" type="button">120 KM DAY RIDE</button>
+          <button class="chip" id="btnFill400" type="button">400 KM OVERNIGHTER</button>
+        </div>
+        <div class="form-grid">
+          <label>Riders<input id="inRiders" type="number" min="1" max="60" value="2"></label>
+          <label>Bikes<input id="inBikes" type="number" min="1" max="30" value="2"></label>
+        </div>
+        <p class="hint">Synced from <a href="#mybike">My Bike</a> when a bike is selected — or enter values manually. Formula: fuel = distance ÷ mileage.</p>
+      </div>
+      <div class="card result-card">
+        <h3>OUTPUT // ESTIMATE</h3>
+        <div class="stat-tiles">
+          <div class="tile tile-blue"><span>Fuel required</span><strong id="oFuel">—</strong></div>
+          <div class="tile tile-orange"><span>Estimated cost</span><strong id="oCost">—</strong></div>
+          <div class="tile tile-teal"><span>Planning range</span><strong id="oRange">—</strong></div>
+          <div class="tile tile-purple"><span>Refuel stops</span><strong id="oStops">—</strong></div>
+        </div>
+        <p class="hint">Refuel within planning range (85% of theoretical, ≈15% reserve) — theoretical range is not a plan. Group totals use riders/bikes above.</p>
+        <dl class="kv" id="calcOut"></dl>
+      </div>
+    </div>
+
+    <div class="compare-wrap reveal">
+      <h3>COMPARE // ALL 150 ROUTES</h3>
+      <div class="table-wrap"><table id="compareTable" class="data">
+        <thead><tr><th>#</th><th>Destination</th><th>Out</th><th>Ret</th><th>Total</th><th>Ride time</th><th>Duration</th><th>Level</th><th>Fuel*</th><th>₹ fuel*</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <p class="hint">*Fuel uses your cockpit settings above — always on the full round trip (Out + Ret = Total).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about">
+  <div class="wrap split2">
+    <div class="reveal">
+      <p class="kicker">About the system</p>
+      <h2>BUILT BY RIDERS, FOR WEEKEND RIDERS.</h2>
+      <p>Every route starts at <strong>Saroornagar, Hyderabad</strong>. Distances are road-route approximations checked against map routing; food, fuel and support notes favour verifiable corridors and town clusters. Hours, prices and road works change — verify before departure.</p>
+      <ul class="ticks">
+        <li>No login · no tracking · planner stays in your browser</li>
+        <li>Start full every ride · refill within planning range</li>
+        <li>Emergency: <strong>112</strong> · Police <strong>100</strong> · Ambulance <strong>108</strong> · NHAI <strong>1033</strong></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <div class="squad-card card">
+        <h3>SQUAD CHECKLIST</h3>
+        <div class="form-grid">
+          <label>Meeting point<input id="gMeet" value="Kothapet Water Tank junction, Saroornagar"></label>
+          <label>Date / wheels-up<input id="gWhen" value="Sunday · 05:30"></label>
+        </div>
+        <div class="checks" id="gChecks"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="sources-all">
+  <div class="wrap">
+    <h2>SOURCES // VERIFICATION</h2>
+    <p class="muted">Routes cross-checked via map routing + Telangana Tourism / TSTDC Haritha, temple &amp; sanctuary pages and district sites. Route geometry last reviewed <strong>September 2026</strong>; dynamic data (hours, prices, pumps, road works) — verify before departure. External maps by third parties.</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap foot-grid">
+    <div>
+      <div class="logo-text">TELANGANA RIDER <em>NETWORK</em></div>
+      <p class="muted">150 weekend motorcycle routes across Telangana. Ride responsibly — never use this site while riding.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href="#mybike">MY BIKE</a><a href="bikes.html">BIKES</a><a href="#routes">ROUTES</a><a href="#map-section">MAP</a><a href="#planner">PLANNER</a><a href="#about">ABOUT</a>
+    </nav>
+  </div>
+  <div class="wrap creator-wrap">
+    <div class="creator-geo" aria-hidden="true"><span></span><span></span><span></span></div>
+    <p class="creator-brand">TELANGANA RIDER NETWORK</p>
+    <p class="creator-made">Made by <strong>Phani Chandra</strong></p>
+    <p class="creator-sub">Built for riders exploring Telangana, one route at a time.</p>
+    <div class="social-row" aria-label="Creator social links">
+      <a class="social-btn" href="https://github.com/OphioPhani" target="_blank" rel="noopener noreferrer" aria-label="Phani Chandra on GitHub"><span class="s-dia" aria-hidden="true">◇</span><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>GITHUB</a>
+      <a class="social-btn" href="https://www.linkedin.com/in/ganji-phani-chandra-730809380/" target="_blank" rel="noopener noreferrer" aria-label="Phani Chandra on LinkedIn"><span class="s-dia" aria-hidden="true">◇</span><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>LINKEDIN</a>
+      <a class="social-btn" href="https://www.instagram.com/2h4ni_/" target="_blank" rel="noopener noreferrer" aria-label="Phani Chandra on Instagram"><span class="s-dia" aria-hidden="true">◇</span><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/></svg>INSTAGRAM</a>
+    </div>
+    <p class="creator-copy">© 2026 Telangana Rider Network</p>
+  </div>
+</footer>
+</main>
+
+<!-- geometric mobile nav -->
+<nav class="bottombar" aria-label="Quick navigation">
+  <a href="#mybike">⬢<span>BIKE</span></a>
+  <a href="#routes">⬣<span>ROUTES</span></a>
+  <a href="#map-section">⬔<span>MAP</span></a>
+  <a href="#planner">⬓<span>FUEL</span></a>
+</nav>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="trips1.js"></script>
+<script src="trips2.js"></script>
+<script src="trips3.js"></script>
+<script src="trips4.js"></script>
+<script src="trips5.js"></script>
+<script src="bikes.js"></script>
+<script src="bike-store.js"></script>
+<script src="route-geo.js"></script>
+<script src="route-map.js"></script>
+<script src="app.js"></script>
+<script>
+if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){});});}
+</script>
+</body>
+</html>

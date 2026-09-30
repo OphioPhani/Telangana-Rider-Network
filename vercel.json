@@ -1,0 +1,23 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/trips/:slug", "destination": "/trip.html?slug=:slug" },
+    { "source": "/routes/:slug", "destination": "/trip.html?slug=:slug" },
+    { "source": "/routes", "destination": "/index.html" },
+    { "source": "/map", "destination": "/index.html" },
+    { "source": "/planner", "destination": "/index.html" },
+    { "source": "/bikes", "destination": "/bikes.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)\\.(js|css|svg|json|xml|txt)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }]
+    },
+    {
+      "source": "/sw.js",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+    }
+  ]
+}

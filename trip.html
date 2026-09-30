@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motorcycle Route — Telangana Rider Network</title>
+<meta name="description" content="Weekend motorcycle route from Hyderabad, Telangana: map, fuel plan, food and support, return route and interactive travel guide.">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Telangana Rider Network">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="appError" hidden><strong>TELANGANA RIDER NETWORK — APPLICATION ERROR.</strong><span id="appErrorMsg"></span><button type="button" onclick="location.reload()">RELOAD</button></div>
+<script>
+window.addEventListener("error",function(e){try{if(e.target!==window&&!e.error)return;console.error("[TRN]",e.error||e.message);var m=document.getElementById("appErrorMsg");if(m)m.textContent=String((e.error&&e.error.message)||e.message||"script error").slice(0,180);var b=document.getElementById("appError");if(b)b.hidden=false;document.querySelectorAll(".reveal").forEach(function(x){x.classList.add("in");});}catch(_){}},true);
+</script>
+<a class="skip" href="#route">Skip to route</a>
+<header class="nav"><div class="nav-top-strip" aria-hidden="true">
+  <span class="hud"></span><span>TRN // ROUTE OS v2.0</span><span class="grow"></span><span>ROUTE FILE <span class="sig" id="navRouteNo">—</span></span>
+</div><div class="nav-inner">
+  <a class="logo" href="index.html"><span class="logo-badge">TRN</span><span class="logo-text">TELANGANA<br>RIDER <em>NETWORK</em></span></a>
+  <nav class="nav-links"><a href="index.html#mybike">MY BIKE</a><a href="index.html#routes">ROUTES</a><a href="index.html#map-section">MAP</a><a href="index.html#planner">TRIP PLANNER</a><a href="bikes.html">BIKE DATABASE</a></nav>
+  <div class="nav-actions">
+    <button id="themeToggle" class="icon-btn" aria-label="Switch dark / light mode">◐</button>
+    <button id="menuBtnT" class="icon-btn menu-btn" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+</div><div class="mobile-menu" id="mobileMenuT" hidden>
+  <a href="index.html#mybike">MY BIKE</a><a href="index.html#routes">ROUTES</a><a href="index.html#map-section">MAP</a><a href="index.html#planner">TRIP PLANNER</a><a href="bikes.html">BIKE DATABASE</a>
+</div></header>
+
+<main id="route"><div id="dest"></div></main>
+
+<footer class="footer"><div class="wrap foot-grid">
+  <div><div class="logo-text">TELANGANA RIDER <em>NETWORK</em></div>
+  <p class="muted">Ride responsibly — never use this site while riding. Verify hours, prices and road conditions before departure.</p></div>
+  <nav><a href="index.html#mybike">MY BIKE</a><a href="index.html#routes">ROUTES</a><a href="index.html#map-section">MAP</a><a href="index.html#planner">PLANNER</a></nav>
+</div>
+<div class="wrap creator-wrap">
+  <div class="creator-geo" aria-hidden="true"><span></span><span></span><span></span></div>
+  <p class="creator-brand">TELANGANA RIDER NETWORK</p>
+  <p class="creator-made">Made by <strong>Phani Chandra</strong></p>
+  <p class="creator-sub">Built for riders exploring Telangana, one route at a time.</p>
+  <div class="social-row" aria-label="Creator social links">
+    <a class="social-btn" href="https://github.com/OphioPhani" target="_blank" rel="noopener noreferrer" aria-label="Phani Chandra on GitHub"><span class="s-dia" aria-hidden="true">◇</span><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>GITHUB</a>
+    <a class="social-btn" href="https://www.linkedin.com/in/ganji-phani-chandra-730809380/" target="_blank" rel="noopener noreferrer" aria-label="Phani Chandra on LinkedIn"><span class="s-dia" aria-hidden="true">◇</span><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>LINKEDIN</a>
+    <a class="social-btn" href="https://www.instagram.com/2h4ni_/" target="_blank" rel="noopener noreferrer" aria-label="Phani Chandra on Instagram"><span class="s-dia" aria-hidden="true">◇</span><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/></svg>INSTAGRAM</a>
+  </div>
+  <p class="creator-copy">© 2026 Telangana Rider Network</p>
+</div></footer>
+
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="trips1.js"></script>
+<script src="trips2.js"></script>
+<script src="trips3.js"></script>
+<script src="trips4.js"></script>
+<script src="trips5.js"></script>
+<script src="bikes.js"></script>
+<script src="bike-store.js"></script>
+<script src="route-geo.js"></script>
+<script src="route-map.js"></script>
+<script>
+(function(){
+"use strict";
+const TRIPS=[...(window.TRIPS1||[]),...(window.TRIPS2||[]),...(window.TRIPS3||[]),...(window.TRIPS4||[]),...(window.TRIPS5||[])].sort((a,b)=>a.n-b.n);
+TRIPS.forEach(t=>{if(!t.district&&window.TRIP_DISTRICTS)t.district=window.TRIP_DISTRICTS[t.n]||"";});
+const ORIGIN="Saroornagar, Hyderabad, Telangana",BASE=[17.356,78.526];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const slug=s=>String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+/* Dual-leg schematic (data-drawn, no photos): projects the real corridor
+   geometry of BOTH legs — outbound solid cyan, return dashed magenta — into a
+   640×200 viewport. Return leg owns its geometry; never a reversed copy. */
+function legSVG(geo,t,W,H){W=W||640;H=H||200;
+  try{
+    const P=30;
+    const all=[...geo.outboundRoute.coordinates,...geo.returnRoute.coordinates];
+    const xs=all.map(p=>p[0]),ys=all.map(p=>p[1]);
+    let minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
+    if(maxX-minX<1e-6){minX-=0.01;maxX+=0.01;}
+    if(maxY-minY<1e-6){minY-=0.01;maxY+=0.01;}
+    const s=Math.min((W-2*P)/(maxX-minX),(H-2*P)/(maxY-minY));
+    const ox=P+((W-2*P)-s*(maxX-minX))/2,oy=P+((H-2*P)-s*(maxY-minY))/2;
+    const X=x=>ox+(x-minX)*s,Y=y=>oy+(maxY-y)*s;
+    const line=pts=>"M"+pts.map(p=>X(p[0]).toFixed(1)+" "+Y(p[1]).toFixed(1)).join(" L");
+    const sx=X(geo.start.coords[0]).toFixed(1),sy=Y(geo.start.coords[1]).toFixed(1);
+    const dx=X(geo.destination.coords[0]).toFixed(1),dy=Y(geo.destination.coords[1]).toFixed(1);
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Outbound and return route diagram for ${esc(t.name)}">`
+      +`<path d="${line(geo.returnRoute.coordinates)}" fill="none" stroke="#D82CFF" stroke-width="2.4" stroke-dasharray="6 4" opacity=".9"/>`
+      +`<path d="${line(geo.outboundRoute.coordinates)}" fill="none" stroke="#00E5FF" stroke-width="3" class="route-draw"/>`
+      +`<polygon points="${sx},${sy-9} ${+sx+9},${sy} ${sx},${+sy+9} ${+sx-9},${sy}" fill="#00E5FF"/>`
+      +`<text x="${dx}" y="${+dy-14}" text-anchor="middle" fill="#D82CFF" font-size="16" font-family="Space Grotesk">★</text>`
+      +`<text x="${W-10}" y="${H-10}" text-anchor="end" fill="#8D96AE" font-size="11" font-family="Space Grotesk">OUT ${geo.outboundRoute.distanceKm} · RET ${geo.returnRoute.distanceKm} KM</text>`
+      +`<text x="10" y="18" fill="#8D96AE" font-size="10" font-family="Space Grotesk">━ OUTBOUND · ┅ RETURN · APPROX PLANNING GEOMETRY</text></svg>`;
+  }catch(e){
+    return `<svg viewBox="0 0 640 200" role="img" aria-label="Route diagram unavailable"><path d="M40 120 L600 120" stroke="#00E5FF" stroke-width="3"/><text x="630" y="190" text-anchor="end" fill="#8D96AE" font-size="11" font-family="Space Grotesk">◆ START ─── ★ DESTINATION</text></svg>`;
+  }}
+function stopSym(label){const s=label.toLowerCase();
+  if(/start|base/.test(s))return["◆","START"];
+  if(/fuel|petrol|pump|top-up|topup/.test(s))return["⬢","FUEL"];
+  if(/breakfast|brunch|nimrah|shadab|tiffin|dhaba|food|haritha|lunch|dinner|chai|coffee|tea|meals|snack/.test(s))return["⬡","FOOD"];
+  if(/puncture|mechanic|workshop|hospital/.test(s))return["⚙","SUPPORT"];
+  if(/view|photo|lake|dam|falls|waterfall|bund|bridge|sunrise|sunset|viewpoint|ghat|fort|temple|museum|park|garden|darshan|falls/.test(s))return["✦","WAYPOINT"];
+  return["◇","BREAK"];}
+const q=new URLSearchParams(location.search).get("slug")||(location.pathname.match(/\/(?:trips|routes)\/([a-z0-9-]+)/)||[])[1]||"";
+const t=TRIPS.find(x=>slug(x.name)===q);
+const box=$("#dest");
+if(!t){box.innerHTML='<div class="wrap section"><div class="card"><h2>ROUTE NOT FOUND</h2><p><a href="index.html#routes">Back to all 150 routes</a>.</p></div></div>';return;}
+$("#navRouteNo").textContent="R-"+String(t.n).padStart(3,"0");
+document.title=`${t.name} Bike Ride from Hyderabad — Route, Map & Fuel | Telangana Rider Network`;
+document.querySelector('meta[name="description"]').setAttribute("content",`${t.name} motorcycle route (${t.total} km, ${t.dur}, ${t.diff}): map, stops, fuel, food, support and return plan.`);
+let canon=document.querySelector('link[rel="canonical"]');
+if(!canon){canon=document.createElement("link");canon.rel="canonical";document.head.appendChild(canon);}
+canon.href="https://telangana-rider-network.pages.dev/trips/"+slug(t.name);
+const dir="https://www.google.com/maps/dir/?api=1&origin="+encodeURIComponent(ORIGIN)+"&destination="+encodeURIComponent(t.dest)+"&travelmode=driving";
+const search="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(t.dest);
+/* ---- round-trip engine: EVERY figure below is based on the COMPLETE
+   round trip (outbound + return). Fuel is never costed on one leg alone. ---- */
+const BS=(window.BikeStore||null);
+const bike=BS?BS.selected():null;
+const petrol=BS?BS.state.petrol:110;
+const planM=bike?(BS.state.mode==="actual"&&parseFloat(BS.state.actual)>=10?parseFloat(BS.state.actual):bike.planning):26;
+const C=window.BikeCalc;
+const outKm=t.oneWay,retKm=Math.max(0,t.total-t.oneWay),totalKm=outKm+retKm;
+const fuelReq=totalKm/planM,fuelCost=fuelReq*petrol;
+const fuelL=fuelReq.toFixed(1),fuelRs="₹"+Math.round(fuelCost).toLocaleString("en-IN");
+const theo=(bike?bike.tank:13)*planM;
+const use=(bike&&C)?Math.round(C.usable(bike,planM)):Math.round(theo*0.85);
+const cpkm=petrol/planM;
+const stops=bike&&C?C.stops(bike,totalKm,planM):{range:use,points:[]};
+/* Per-leg stop classification from the route's own stop rows. */
+function legCounts(rows){
+  let fuel=0,brk=0,food=0;
+  (rows||[]).forEach(r=>{const l=stopSym(r[0])[1];
+    if(l==="FUEL")fuel++;
+    else{if(l==="FOOD")food++;brk++;}});
+  return{fuel,brk,food,n:(rows||[]).length};
+}
+const outC=legCounts(t.route),retC=legCounts(t.back);
+/* Proportional ride-time share per leg (estimate — total stays authoritative). */
+function shareRide(ride,km,total){
+  const m=String(ride||"").match(/(\d+(?:\.\d+)?)\s*(?:–|-|to)?\s*(\d+(?:\.\d+)?)?\s*(hr?s?|min)/i);
+  if(!m||!total)return"≈ see total";
+  const f=km/total,fmt=v=>(Math.round(v*10)/10).toString().replace(/\.0$/,"");
+  const unit=(m[3]||"hrs").toLowerCase().startsWith("min")?"min":"hrs";
+  return m[2]?`≈${fmt(+m[1]*f)}–${fmt(+m[2]*f)} ${unit} (est.)`:`≈${fmt(+m[1]*f)} ${unit} (est.)`;
+}
+const outRide=shareRide(t.ride,outKm,totalKm),retRide=shareRide(t.ride,retKm,totalKm);
+/* Per-leg range verdict against the 85%-reserve planning range. */
+function legRangeWarn(km){
+  if(km<=use)return"";
+  return `⚠ <strong>RANGE WARNING (planning):</strong> this ${km} km leg exceeds your ${use} km planning range (85% reserve) — refuel before continuing. The next fuel stop is beyond the recommended planning range for your selected motorcycle.`;
+}
+function gapInfo(){
+  const pts=(t.fuel||[]).map(f=>{const m=String(f[1]).match(/(\d+)/);return m?parseInt(m[1]):null;}).filter(v=>v!==null).sort((a,b)=>a-b);
+  const legs=[0,...pts,t.total];let max=0;for(let i=1;i<legs.length;i++)max=Math.max(max,legs[i]-legs[i-1]);
+  return{max,ok:max<=use,n:pts.length};
+}
+const gap=gapInfo();
+const days=t.durKey==="2n"?3:t.durKey==="1n"?2:1;
+const foodDay=t.budget.food;
+const bikeCost=fuelCost+t.budget.toll+t.budget.park+t.budget.entry;
+const tripTotal=bikeCost+foodDay*days;
+const rows=r=>r.map((x,i)=>{const[kind,label]=stopSym(x[0]);return `<tr><td>${i+1}</td><td><strong>${kind} ${esc(x[0])}</strong></td><td>${esc(x[1])}</td><td>${esc(x[2])}</td><td>${esc(x[3])}</td><td>${esc(x[4])}</td></tr>`;}).join("");
+const ld={"@context":"https://schema.org","@type":"TouristTrip",name:"Hyderabad to "+t.name+" Bike Ride",description:t.desc,touristType:"Motorcyclists"};
+const s=document.createElement("script");s.type="application/ld+json";s.textContent=JSON.stringify(ld);document.head.appendChild(s);
+const stopCounts={};
+t.route.concat(t.back).forEach(r=>{const k=stopSym(r[0])[1];stopCounts[k]=(stopCounts[k]||0)+1;});
+/* Round-trip geo FIRST — hero art, map and timelines all draw from it. */
+const geo=(window.RouteGeo?RouteGeo.build(t):null);
+box.innerHTML=`
+<section class="dest-hero"><div class="dest-hero-inner">
+<div><p class="crumbs"><a href="index.html">HOME</a> · <a href="index.html#routes">ROUTES</a> · R-${String(t.n).padStart(3,"0")}</p>
+<p class="hero-coords">ROUND TRIP // ${totalKm} KM // SAROORNAGAR → DESTINATION → SAROORNAGAR</p>
+<h1 data-grid-avoid>${esc(t.name).toUpperCase()}</h1><p style="max-width:60ch;color:var(--mut)">${esc(t.desc)}</p>
+<div class="roundtrip-banner" role="img" aria-label="Round trip: Saroornagar to destination and back to Saroornagar"><span>◆ SAROORNAGAR</span><span class="rt-arrow" aria-hidden="true">↓ OUTBOUND ${outKm} KM ↓</span><span>★ ${esc(t.dest.split(",")[0].toUpperCase())}</span><span class="rt-arrow ret" aria-hidden="true">↓ RETURN ${retKm} KM ↓</span><span>◆ SAROORNAGAR</span></div>
+<div class="dest-nav"><a class="btn btn-primary" target="_blank" rel="noopener" href="${dir}">START NAVIGATION →</a>
+<button class="btn btn-glass" id="btnShare">SHARE ROUTE</button></div></div>
+<div class="hero-route-art">${geo?legSVG(geo,t):""}<p class="hint" style="margin:8px 0 0">Approximate planning geometry — cyan = outbound, magenta dashed = return. Verify turn-by-turn in a maps app.</p></div>
+</div></section>
+<div class="wrap">
+<div class="info-grid">
+<div class="info info-out"><span>Outbound</span><strong>${outKm} KM</strong>Saroornagar → dest</div>
+<div class="info info-ret"><span>Return</span><strong>${retKm} KM</strong>dest → Saroornagar</div>
+<div class="info"><span>Total round trip</span><strong>${totalKm} KM</strong>out ${outKm} + return ${retKm}</div>
+<div class="info"><span>Riding time</span><strong style="font-size:1rem">${esc(t.ride)}</strong></div>
+<div class="info"><span>Fuel${bike?" · "+esc(bike.model):" · no bike"}</span><strong>${fuelL} L</strong>${fuelRs} / bike · total</div>
+<div class="info"><span>Best season</span><strong style="font-size:1rem">${esc(t.season)}</strong></div>
+<div class="info"><span>Duration</span><strong>${esc(t.dur)}</strong></div>
+<div class="info"><span>Difficulty</span><strong>${esc(t.diff)}</strong></div>
+</div>
+${bike?`<div class="card" style="border:1px solid var(--violet)">
+<h3>YOUR TRIP COST // ${esc(bike.brand)} ${esc(bike.model)} <span class="muted" style="font-weight:400">· ${bike.cc} CC · <a href="index.html#mybike">CHANGE BIKE</a></span></h3>
+<p class="hint" style="margin:0">Round-trip math: total ${totalKm} km = outbound ${outKm} + return ${retKm} · fuel ${totalKm} ÷ ${planM} = ${fuelL} L · cost ${fuelL} × ₹${petrol} = <strong>${fuelRs}</strong>.</p>
+<div class="info-grid" style="margin:12px 0">
+<div class="info info-out"><span>Outbound</span><strong>${outKm} KM</strong>${outRide}</div>
+<div class="info info-ret"><span>Return</span><strong>${retKm} KM</strong>${retRide}</div>
+<div class="info"><span>Total distance</span><strong>${totalKm} KM</strong></div>
+<div class="info"><span>Planning mileage</span><strong>${planM} KM/L</strong>${BS.state.mode==="actual"?"· your actual":"· database"}</div>
+<div class="info"><span>Fuel required</span><strong>${fuelL} L</strong></div>
+<div class="info"><span>Est. fuel cost</span><strong>${fuelRs}</strong>@ ₹${petrol}/L</div>
+<div class="info"><span>Planning range*</span><strong>${use} KM</strong></div>
+<div class="info"><span>Refuels needed*</span><strong>${stops.points.length?stops.points.length+" ×":"0"}</strong></div>
+</div>
+${legRangeWarn(outKm)?`<div class="warn-box" style="margin-bottom:10px">${legRangeWarn(outKm)} (outbound leg)</div>`:""}
+${legRangeWarn(retKm)?`<div class="warn-box" style="margin-bottom:10px">${legRangeWarn(retKm)} (return leg)</div>`:""}
+${stops.points.length?`<p><strong>Recommended refuelling:</strong> start with a full tank${stops.points.map((p,i)=>`; refuel #${i+1} ~${p} km`).join("")}.</p>`:`<p><strong>No refuel stop needed</strong> — the ${totalKm} km round trip fits inside your ${use} km planning range starting full. Still top up at the listed pumps.</p>`}
+<p class="hint">*Planning range = tank × mileage × 0.85 (≈15% reserve) — theoretical range is not a plan. Cost/km: <strong>₹${cpkm.toFixed(2)}</strong>.</p>
+<div class="${gap.ok?"ok-box":"warn-box"}">${gap.ok?`✓ <strong>FUEL-GAP CHECK:</strong> longest stretch between verified fuel points ≈ ${gap.max} km — within your ${use} km planning range.`:`⚠ <strong>FUEL-GAP WARNING (planning):</strong> longest stretch ≈ ${gap.max} km exceeds your ${use} km planning range — refuel before entering that section. Planning aid, not a safety rating.`}</div>
+</div>`:`<div class="card" style="border:1px solid var(--cyan)"><h3>◇ NO BIKE SELECTED</h3><p>Round trip: <strong>${totalKm} km</strong> (out ${outKm} + return ${retKm}). Fuel figures use reference values. <a href="index.html#mybike">Select your motorcycle</a> to personalize fuel, refuelling and budget for the complete round trip.</p></div>`}
+<section class="section" style="padding-top:10px"><p class="kicker">Route overview</p><h2>WHAT MAKES THIS RIDE SPECIAL</h2>
+<p>${esc(t.attract)}</p>
+<p class="muted">Roads: ${esc(t.roads)} · Terrain: ${esc(t.terrain)} · Tolls: ${esc(t.tolls)} · District: ${esc(t.district||"Telangana")} · Wheels-up ${esc(t.depart)} · Out ${outKm} km + return ${retKm} km</p>
+<div class="meta-row">${Object.entries(stopCounts).map(([k,v])=>`<span class="pill teal">${k} × ${v}</span>`).join("")}</div>
+<p class="hint">SYMBOLS — ◆ START · ◇ BREAK · ⬢ FUEL · ⬡ FOOD · ⚙ SUPPORT · ★ DESTINATION</p></section>
+<section><p class="kicker">Two legs, one trip</p><h2>OUTBOUND // RETURN</h2>
+<div class="leg-grid">
+<div class="card leg-card leg-out"><h3>OUTBOUND</h3><p class="leg-route">◆ SAROORNAGAR → ★ ${esc(t.dest.split(",")[0].toUpperCase())}</p>
+<div class="leg-stats"><div><span>Distance</span><strong>${outKm} KM</strong></div><div><span>Ride time</span><strong>${outRide}</strong></div><div><span>Fuel stops</span><strong>${outC.fuel} ×</strong></div><div><span>Break stops</span><strong>${outC.brk} ×</strong></div></div>
+${legRangeWarn(outKm)?`<p class="warn-box" style="margin:0">${legRangeWarn(outKm)}</p>`:""}
+<div class="card-foot"><button class="btn btn-primary btn-sm" data-leg-goto="outbound" type="button">VIEW OUTBOUND ROUTE →</button></div></div>
+<div class="card leg-card leg-ret"><h3>RETURN</h3><p class="leg-route">★ ${esc(t.dest.split(",")[0].toUpperCase())} → ◆ SAROORNAGAR</p>
+<div class="leg-stats"><div><span>Distance</span><strong>${retKm} KM</strong></div><div><span>Ride time</span><strong>${retRide}</strong></div><div><span>Fuel stops</span><strong>${retC.fuel} ×</strong></div><div><span>Break stops</span><strong>${retC.brk} ×</strong></div></div>
+${legRangeWarn(retKm)?`<p class="warn-box" style="margin:0">${legRangeWarn(retKm)}</p>`:""}
+<div class="card-foot"><button class="btn btn-primary btn-sm" data-leg-goto="return" type="button">VIEW RETURN ROUTE →</button></div></div>
+</div>
+<p class="hint">TOTAL ROUND TRIP — <strong>${totalKm} km</strong> · <strong>${esc(t.ride)}</strong> · fuel <strong>${fuelL} L</strong> · cost <strong>${fuelRs}</strong>. Return uses its own stops and geometry — never a reversed copy.</p></section>
+<section><p class="kicker">Round-trip map</p><h2>FOLLOW BOTH ROADS</h2>
+<div class="map-mode" role="group" aria-label="Map legs">
+<button class="chip" data-map-mode="both" aria-pressed="true">BOTH ROUTES</button>
+<button class="chip" data-map-mode="outbound" aria-pressed="false">OUTBOUND</button>
+<button class="chip" data-map-mode="return" aria-pressed="false">RETURN</button>
+</div>
+<div id="tripMap" role="application" aria-label="Interactive round-trip map: outbound and return routes"></div>
+<div class="map-legend" aria-hidden="true"><span><b style="color:#00E5FF">━</b> CYAN = OUTBOUND</span><span><b style="color:#D82CFF">┅</b> MAGENTA = RETURN</span><span><b style="color:#00E5FF">◆</b> = START</span><span><b style="color:#D82CFF">★</b> = DESTINATION</span><span><b style="color:#FF7A18">⬢</b> = FUEL</span><span><b style="color:#7A3CFF">◇</b> = BREAK</span><span><b style="color:#FF3D81">⬡</b> = FOOD</span><span><b style="color:#00A8FF">⚙</b> = SUPPORT</span></div>
+<p class="hint">Tap a marker for stop intel. Cyan solid = outbound Saroornagar → destination, magenta dashed = return. Approximate planning geometry © OpenFreeMap © OpenStreetMap — no API key.</p></section>
+<div class="cols2" style="margin-top:26px">
+<div><p class="kicker">Outbound leg · ${outKm} km</p><h2>GOING // TIMELINE</h2><div class="timeline tl-out">
+<div class="tstep t-start"><span class="ttime">◆ SAROORNAGAR · WHEELS-UP ${esc(t.depart)}</span><h4>Saroornagar, Hyderabad</h4><p class="muted">Start full · odo reset · group lineup</p></div>
+${t.route.map((r,i)=>{const[kind]=stopSym(r[0]);return `<div class="tstep"><span class="ttime">${kind} STOP ${i+1} · ${esc(r[2])} · RIDE ${esc(r[3])}</span><h4>${esc(r[0])}</h4><p class="muted">${esc(r[1])}${r[4]&&r[4]!=="—"?` · HALT ${esc(r[4])} MIN`:""}</p></div>`;}).join("")}
+<div class="tstep t-dest"><span class="ttime">★ DESTINATION</span><h4>${esc(t.dest)}</h4><p class="muted">${esc(t.attract)}</p></div></div></div>
+<div><p class="kicker">Return leg · ${retKm} km</p><h2>BACK // TIMELINE</h2><div class="timeline tl-ret">
+<div class="tstep t-dest"><span class="ttime">★ DESTINATION · HEAD BACK</span><h4>${esc(t.dest)}</h4><p class="muted">Regroup · fuel check · own return stops below</p></div>
+${t.back.map((r,i)=>{const[kind]=stopSym(r[0]);return `<div class="tstep"><span class="ttime">${kind} STOP ${i+1} · ${esc(r[2])} · RIDE ${esc(r[3])}</span><h4>${esc(r[0])}</h4><p class="muted">${esc(r[1])}${r[4]&&r[4]!=="—"?` · HALT ${esc(r[4])} MIN`:""}</p></div>`;}).join("")}
+<div class="tstep t-start"><span class="ttime">◆ SAROORNAGAR · HOME</span><h4>Saroornagar, Hyderabad</h4><p class="muted">Round trip complete · ${totalKm} km</p></div></div>
+<h3 style="margin-top:18px">RETURN JOURNEY // TABLE</h3>
+<div class="table-wrap"><table class="data"><thead><tr><th>#</th><th>Waypoint</th><th>Notes</th><th>Leg</th><th>Ride</th><th>Halt</th></tr></thead><tbody>${rows(t.back)}</tbody></table></div></div>
+<div>
+<div class="card"><h3>FUEL PLAN</h3><div class="table-wrap"><table class="data small"><thead><tr><th>Fuel point</th><th>Position</th></tr></thead><tbody>
+${t.fuel.map(f=>`<tr><td><strong>⬢ ${esc(f[0])}</strong></td><td>${esc(f[1])}</td></tr>`).join("")}</tbody></table></div>
+<p>Need ≈ <strong>${fuelL} L / bike</strong> for the full <strong>${totalKm} km round trip</strong> (${fuelRs} at ${planM} km/l, ₹${petrol}/l). Theoretical full-tank range ≈ ${Math.round(theo)} km — plan on the <strong>${use} km planning range</strong> (85% reserve, never run the tank dry).</p>
+<p class="hint">Actual range varies with speed, traffic, load, terrain, wind, tyre pressure and bike condition — refuel early.</p>
+<div class="dest-nav"><a class="btn btn-primary btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("petrol pump near "+t.dest)}">FIND FUEL NEARBY</a></div></div>
+<div class="card" style="margin-top:16px"><h3>WHERE TO EAT</h3>
+<div class="food-grid"><div class="food-card"><div><h4>⬡ BREAKFAST</h4><p class="muted">${esc(t.foodB)}</p></div></div>
+<div class="food-card"><div><h4>⬡ LUNCH</h4><p class="muted">${esc(t.foodL)}</p></div></div></div></div>
+<div class="support-card" style="margin-top:16px"><div><h3>⚙ ROAD SUPPORT</h3><p>${esc(t.support)}</p>
+<p class="muted">Emergency: NHAI <strong>1033</strong> · <strong>112 / 100 / 108</strong>. Confirm hospital/casualty via 108 before diverting.</p>
+<div class="dest-nav"><a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("two wheeler mechanic near "+t.dest)}">MECHANIC NEAR DESTINATION</a>
+<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("puncture shop near "+t.dest)}">PUNCTURE HELP</a></div></div></div>
+<div class="card" style="margin-top:16px"><h3>TRIP COST BREAKDOWN</h3>
+<div class="table-wrap"><table class="data small"><thead><tr><th>Item</th><th>Amount</th></tr></thead><tbody>
+<tr><td>Fuel — round trip (${outKm} + ${retKm} = ${totalKm} km ÷ ${planM} km/l × ₹${petrol})</td><td><strong>${fuelRs}</strong></td></tr>
+<tr><td>Tolls</td><td>${"₹"+t.budget.toll}</td></tr>
+<tr><td>Parking</td><td>${"₹"+t.budget.park}</td></tr>
+<tr><td>Entry fees</td><td>${"₹"+t.budget.entry}</td></tr>
+<tr><td>Food (≈ ₹${foodDay} × ${days} day${days>1?"s":""})</td><td>${"₹"+(foodDay*days).toLocaleString("en-IN")}</td></tr>
+<tr><td><strong>Estimated total</strong></td><td><strong>${"₹"+Math.round(tripTotal).toLocaleString("en-IN")}</strong></td></tr>
+</tbody></table></div>
+<p class="hint">Motorcycle (fuel + tolls + parking + entry): <strong>${"₹"+Math.round(bikeCost).toLocaleString("en-IN")}</strong> · Personal (food): <strong>${"₹"+(foodDay*days).toLocaleString("en-IN")}</strong>.</p></div>
+<div class="card" style="margin-top:16px"><h3>⚠ BEFORE YOU GO</h3><p>${esc(t.warn)}</p><p class="muted">${esc(t.safety||"")}</p></div>
+</div></div>
+<section><h2>SOURCES</h2><ul>${t.src.map(x=>`<li>${esc(x)}</li>`).join("")}<li>September 2026 route-geometry review; dynamic info — verify before departure.</li></ul>
+<p><a class="btn btn-ghost" href="index.html#routes">← ALL 150 ROUTES</a> <a class="btn btn-primary" target="_blank" rel="noopener" href="${search}">OPEN DESTINATION IN MAPS</a></p></section>
+</div>`;
+$("#btnShare")?.addEventListener("click",()=>{const url=location.href,txt=t.name+" bike ride ("+t.total+" km)";
+  if(navigator.share)navigator.share({title:txt,text:txt,url}).catch(()=>{});
+  else if(navigator.clipboard)navigator.clipboard.writeText(txt+" "+url).then(()=>alert("Link copied:\n"+url));
+  else prompt("Copy link:",url);});
+/* Round-trip map — dedicated MapLibre + OpenFreeMap view (no Mapbox, no key,
+   no backend). Both legs on by default; switch filters lines + markers and
+   refits the complete round-trip bounding box. Isolated: map failure never
+   blanks the page. */
+let tripMapCtl=null;
+try{
+  if(!geo||!window.RouteMap||!window.maplibregl)throw new Error("map unavailable");
+  tripMapCtl=RouteMap.render(document.getElementById("tripMap"),geo,{padding:44});
+  const modeBtns=[...document.querySelectorAll("[data-map-mode]")];
+  const applyMode=m=>{
+    modeBtns.forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.mapMode===m)));
+    try{tripMapCtl&&tripMapCtl.setMode(m);}catch(e){}
+  };
+  modeBtns.forEach(b=>b.addEventListener("click",()=>applyMode(b.dataset.mapMode)));
+  document.querySelectorAll("[data-leg-goto]").forEach(b=>b.addEventListener("click",()=>{
+    applyMode(b.dataset.legGoto);
+    document.getElementById("tripMap")?.scrollIntoView({behavior:"smooth",block:"center"});
+  }));
+}catch(err){
+  console.error("[TRN map]",err&&err.message);
+  const tm=document.getElementById("tripMap");
+  if(tm)tm.innerHTML=`<div class="map-preview-empty"><span class="hex">◇</span><h3>MAP TEMPORARILY UNAVAILABLE</h3><p>All route information below is unaffected.</p></div>`;
+}
+/* theme */
+const saved=localStorage.getItem("trn-theme");if(saved)document.documentElement.dataset.theme=saved;
+const tb=$("#themeToggle");const sync=()=>tb.textContent="◐";sync();
+tb.addEventListener("click",()=>{const r=document.documentElement;r.dataset.theme=r.dataset.theme==="dark"?"light":"dark";localStorage.setItem("trn-theme",r.dataset.theme);sync();});
+$("#menuBtnT")?.addEventListener("click",e=>{const m=$("#mobileMenuT");m.hidden=!m.hidden;e.currentTarget.setAttribute("aria-expanded",String(!m.hidden));});
+$("#mobileMenuT")?.addEventListener("click",()=>{$("#mobileMenuT").hidden=true;});
+})();
+</script>
+<script>
+</script>
+</body>
+</html>

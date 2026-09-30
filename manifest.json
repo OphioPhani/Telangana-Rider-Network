@@ -1,0 +1,13 @@
+{
+  "name": "Telangana Rider Network — 150 Weekend Motorcycle Routes",
+  "short_name": "TRN Routes",
+  "description": "150 weekend motorcycle routes across Telangana: maps, fuel planner, food and support, interactive travel guide.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#070A14",
+  "theme_color": "#070A14",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

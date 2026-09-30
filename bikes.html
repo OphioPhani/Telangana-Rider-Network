@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bike Database — 100cc to 1000cc+ Motorcycles in India | Telangana Rider Network</title>
+<meta name="description" content="Browse petrol motorcycles sold in India with tank capacity, claimed vs planning mileage, range and per-km fuel cost for trip planning.">
+<link rel="canonical" href="https://telangana-rider-network.pages.dev/bikes">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Telangana Rider Network">
+<meta property="og:title" content="Motorcycle Database — Pick Your Bike, Plan Your Trip Cost">
+<meta property="og:description" content="117 petrol motorcycles sold in India with planning mileage, tank range and per-km fuel cost.">
+<meta property="og:url" content="https://telangana-rider-network.pages.dev/bikes">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="icon.svg">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="appError" hidden><strong>TELANGANA RIDER NETWORK — APPLICATION ERROR.</strong><span id="appErrorMsg"></span><button type="button" onclick="location.reload()">RELOAD</button></div>
+<script>
+window.addEventListener("error",function(e){try{if(e.target!==window&&!e.error)return;console.error("[TRN]",e.error||e.message);var m=document.getElementById("appErrorMsg");if(m)m.textContent=String((e.error&&e.error.message)||e.message||"script error").slice(0,180);var b=document.getElementById("appError");if(b)b.hidden=false;document.querySelectorAll(".reveal").forEach(function(x){x.classList.add("in");});}catch(_){}},true);
+</script>
+<a class="skip" href="#db">Skip to database</a>
+<header class="nav"><div class="nav-top-strip" aria-hidden="true">
+  <span class="hud"></span><span>TRN // ROUTE OS v2.0</span><span class="grow"></span><span>BIKE DATABASE <span class="sig">● LIVE</span></span>
+</div><div class="nav-inner">
+  <a class="logo" href="index.html"><span class="logo-badge">TRN</span><span class="logo-text">TELANGANA<br>RIDER <em>NETWORK</em></span></a>
+  <nav class="nav-links"><a href="index.html#mybike">MY BIKE</a><a href="index.html#routes">ROUTES</a><a href="index.html#map-section">MAP</a><a href="index.html#planner">TRIP PLANNER</a><a href="bikes.html" class="active" aria-current="page">BIKE DATABASE</a></nav>
+  <div class="nav-actions">
+    <button id="themeToggle" class="icon-btn" aria-label="Switch dark / light mode">◐</button>
+    <a href="index.html#routes" class="btn btn-primary nav-cta">FIND A RIDE</a>
+    <button id="menuBtnB" class="icon-btn menu-btn" aria-label="Open menu" aria-expanded="false">☰</button>
+  </div>
+</div><div class="mobile-menu" id="mobileMenuB" hidden>
+  <a href="index.html#mybike">MY BIKE</a><a href="index.html#routes">ROUTES</a><a href="index.html#map-section">MAP</a><a href="index.html#planner">TRIP PLANNER</a><a href="bikes.html">BIKE DATABASE</a>
+</div></header>
+
+<main id="db">
+<section class="section" style="padding-top:40px">
+  <div class="wrap">
+    <p class="kicker">Motorcycle database · India</p>
+    <h1 data-grid-avoid>FIND YOUR<br>MOTORCYCLE.</h1>
+    <p class="sec-sub"><span id="dbCount"></span> · Tank = manufacturer capacity. <strong>Claimed</strong> mileage is the published figure; <strong>planning</strong> mileage is our conservative trip estimate. Specs last verified September 2026. Specification-driven — no stock photography.</p>
+    <div class="filters" style="margin-top:20px">
+      <div class="bike-search-row" style="margin-bottom:14px">
+        <span aria-hidden="true" style="color:var(--cyan)">◇</span>
+        <input id="dbSearch" type="search" placeholder="SEARCH BRAND, MODEL, ENGINE… TRY 400, ROYAL ENFIELD, SCRAMBLER" aria-label="Search motorcycles">
+      </div>
+      <div class="fgroup"><span class="flabel">Engine size</span><div class="chips" id="dbBands"></div></div>
+      <div class="fgroup"><span class="flabel">Brand</span><div class="chips" id="dbBrands"></div></div>
+      <div class="fgroup"><span class="flabel">Segment</span><div class="chips" id="dbSegs"></div></div>
+      <div class="fgroup fgroup-sort"><span class="flabel">Sort</span>
+        <select id="dbSort" aria-label="Sort bikes">
+          <option value="cc">ENGINE SIZE</option>
+          <option value="mileage">PLANNING MILEAGE (HIGH FIRST)</option>
+          <option value="tank">TANK (LARGE FIRST)</option>
+          <option value="range">PLANNING RANGE (LONG FIRST)</option>
+          <option value="cpkm">FUEL COST/KM (LOW FIRST)</option>
+        </select>
+        <label class="hint" style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="dbHideDiscontinued" checked> Hide discontinued</label>
+      </div>
+    </div>
+    <div class="bike-grid" id="dbGrid"></div>
+    <p class="hint" style="margin-top:18px">Petrol price used for cost/km: <strong id="dbPetrolEcho">₹110/L</strong> (set in <a href="index.html#mybike">My Bike</a>).</p>
+  </div>
+</section>
+</main>
+
+<footer class="footer"><div class="wrap foot-grid">
+  <div><div class="logo-text">TELANGANA RIDER <em>NETWORK</em></div>
+  <p class="muted">Mileage figures are planning estimates — actual range varies with speed, traffic, load, terrain and riding style.</p></div>
+  <nav><a href="index.html#mybike">MY BIKE</a><a href="index.html#routes">ROUTES</a><a href="index.html#planner">PLANNER</a></nav>
+</div>
+<div class="wrap creator-wrap">
+  <div class="creator-geo" aria-hidden="true"><span></span><span></span><span></span></div>
+  <p class="creator-brand">TELANGANA RIDER NETWORK</p>
+  <p class="creator-made">Made by <strong>Phani Chandra</strong></p>
+  <p class="creator-sub">Built for riders exploring Telangana, one route at a time.</p>
+  <div class="social-row" aria-label="Creator social links">
+    <a class="social-btn" href="https://github.com/OphioPhani" target="_blank" rel="noopener noreferrer" aria-label="Phani Chandra on GitHub"><span class="s-dia" aria-hidden="true">◇</span><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.15c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.72-1.54-2.55-.29-5.23-1.28-5.23-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>GITHUB</a>
+    <a class="social-btn" href="https://www.linkedin.com/in/ganji-phani-chandra-730809380/" target="_blank" rel="noopener noreferrer" aria-label="Phani Chandra on LinkedIn"><span class="s-dia" aria-hidden="true">◇</span><svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>LINKEDIN</a>
+    <a class="social-btn" href="https://www.instagram.com/2h4ni_/" target="_blank" rel="noopener noreferrer" aria-label="Phani Chandra on Instagram"><span class="s-dia" aria-hidden="true">◇</span><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.3" fill="currentColor" stroke="none"/></svg>INSTAGRAM</a>
+  </div>
+  <p class="creator-copy">© 2026 Telangana Rider Network</p>
+</div></footer>
+
+<script src="bikes.js"></script>
+<script src="bike-store.js"></script>
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const S={q:"",band:"all",brand:"",seg:"",sort:"cc",hideDisc:true};
+const money=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+function bandOf(cc){return (window.BIKE_BANDS||[]).find(b=>b.id!=="all"&&cc>=b.min&&cc<=b.max);}
+function filtered(){
+  const price=BikeStore.state.petrol;
+  let r=(window.BIKES||[]).filter(b=>{
+    if(S.hideDisc&&b.st!=="current")return false;
+    if(S.band!=="all"){const bd=bandOf(b.cc);if(!bd||bd.id!==S.band)return false;}
+    if(S.brand&&b.brand!==S.brand)return false;
+    if(S.seg&&b.seg!==S.seg)return false;
+    if(S.q){const hay=(b.brand+" "+b.model+" "+(b.variant||"")+" "+b.cc+"cc "+b.seg).toLowerCase();
+      const toks=S.q.toLowerCase().split(/\s+/);
+      if(!toks.every(w=>{if(/^\d{2,4}$/.test(w)){return Math.abs(b.cc-parseInt(w))<=30;}return hay.includes(w);}))return false;}
+    return true;});
+  const R=b=>window.BikeCalc.usable(b);
+  if(S.sort==="mileage")r.sort((a,b)=>b.planning-a.planning);
+  else if(S.sort==="tank")r.sort((a,b)=>b.tank-a.tank);
+  else if(S.sort==="range")r.sort((a,b)=>R(b)-R(a));
+  else if(S.sort==="cpkm")r.sort((a,b)=>(price/a.planning)-(price/b.planning));
+  else r.sort((a,b)=>a.cc-b.cc);
+  return r;
+}
+function render(){
+  const price=BikeStore.state.petrol;
+  const list=filtered();
+  $("#dbCount").textContent=list.length+" / "+window.BIKES.length+" motorcycles";
+  $("#dbPetrolEcho").textContent="₹"+price+"/L";
+  $("#dbGrid").innerHTML=list.map(b=>{
+    const sel=BikeStore.state.bikeId===b.id;
+    return `<article class="bike-card ${sel?"sel":""}">
+    <div class="bike-card-head"><div><div class="bike-brand">${esc(b.brand)}</div>
+      <h3 style="margin:.2em 0 0">${esc(b.model)}${b.variant&&b.variant!=="Standard"?` <small>· ${esc(b.variant)}</small>`:""}</h3></div>
+      <span class="bike-cc">${b.cc} CC</span></div>
+    <div class="bike-card-body">
+      <p class="muted" style="margin:0;font-size:.8rem">${esc(b.seg).toUpperCase()} · ${b.yr} · ${b.wt} KG${b.st!=="current"?" · DISCONTINUED / USED":""}</p>
+      <div class="bike-specs">
+        <div><span>Tank</span><strong>${b.tank} L</strong></div>
+        <div><span>Claimed</span><strong>${b.claimed}</strong></div>
+        <div><span>Planning</span><strong>${b.planning}</strong></div>
+        <div><span>Range</span><strong>${Math.round(window.BikeCalc.usable(b))} KM</strong></div>
+      </div>
+      <div class="card-foot"><span class="fuel-tag">⬢ ${money(price/b.planning)}/KM</span></div>
+      <div class="card-foot"><button class="btn btn-primary btn-sm" data-sel="${b.id}">${sel?"SELECTED ✓":"SELECT"}</button></div>
+    </div></article>`;}).join("")||'<div class="card"><h3>NO BIKES MATCH</h3><p class="muted">Try clearing a filter.</p></div>';
+}
+function chips(el,items,cur,cb){el.innerHTML=items.map(o=>`<button class="chip" data-v="${esc(o.v)}" aria-pressed="${o.v===cur}">${esc(o.l)}</button>`).join("");
+  el.onclick=e=>{const b=e.target.closest(".chip");if(!b)return;cb(b.dataset.v);};}
+function renderFilters(){
+  chips($("#dbBands"),window.BIKE_BANDS.map(b=>({v:b.id,l:b.label.toUpperCase()})),S.band,v=>{S.band=v;renderFilters();render();});
+  const brands=[{v:"",l:"ALL"},...[...new Set(window.BIKES.map(b=>b.brand))].sort().map(b=>({v:b,l:b.toUpperCase()}))];
+  chips($("#dbBrands"),brands,S.brand,v=>{S.brand=v;renderFilters();render();});
+  const segs=[{v:"",l:"ALL"},...window.BIKE_SEGMENTS.map(s=>({v:s,l:s.toUpperCase()}))];
+  chips($("#dbSegs"),segs,S.seg,v=>{S.seg=v;renderFilters();render();});
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-sel]");if(!b)return;
+  BikeStore.select(b.dataset.sel);render();});
+$("#dbSearch").addEventListener("input",e=>{S.q=e.target.value;render();});
+$("#dbSort").addEventListener("change",e=>{S.sort=e.target.value;render();});
+$("#dbHideDiscontinued").addEventListener("change",e=>{S.hideDisc=e.target.checked;render();});
+const root=document.documentElement;
+const saved=localStorage.getItem("trn-theme");if(saved)root.dataset.theme=saved;
+$("#themeToggle").addEventListener("click",()=>{root.dataset.theme=root.dataset.theme==="dark"?"light":"dark";localStorage.setItem("trn-theme",root.dataset.theme);});
+$("#menuBtnB")?.addEventListener("click",e=>{const m=$("#mobileMenuB");m.hidden=!m.hidden;e.currentTarget.setAttribute("aria-expanded",String(!m.hidden));});
+$("#mobileMenuB")?.addEventListener("click",()=>{$("#mobileMenuB").hidden=true;});
+renderFilters();render();
+})();
+</script>
+</body>
+</html>
